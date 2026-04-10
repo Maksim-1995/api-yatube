@@ -46,10 +46,11 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Возвращаем комментарии только для конкретного поста."""
         post_id = self.kwargs.get('post_id')
-        return Comment.objects.filter(post__id=post_id).select_related('author')
+        return Comment.objects.filter(
+            post__id=post_id).select_related('author')
 
     def perform_create(self, serializer):
-        """При создании комментария автоматически устанавливаем автора и пост."""
+        """При создании комментария автоматически устанавливаем автора."""
         post_id = self.kwargs.get('post_id')
         post = get_object_or_404(Post, id=post_id)
         serializer.save(author=self.request.user, post=post)
