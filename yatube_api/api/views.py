@@ -34,8 +34,8 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def _get_post(self):
         """Возвращает объект поста по post_id из URL или 404."""
-        post_id = self.kwargs.get('post_id')
-        return get_object_or_404(Post, id=post_id)
+        post_pk = self.kwargs.get('post_pk')
+        return get_object_or_404(Post, pk=post_pk)
 
     def get_queryset(self):
         post = self._get_post()
@@ -54,3 +54,4 @@ class CommentViewSet(viewsets.ModelViewSet):
         if instance.author != self.request.user:
             raise PermissionDenied('Удаление чужого комментария запрещено!')
         super().perform_destroy(instance)
+
